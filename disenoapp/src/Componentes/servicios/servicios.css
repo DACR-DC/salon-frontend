@@ -4,24 +4,87 @@
    /* font-family: Arial, sans-serif;
 }*/
   
-h2 {
-    color: #765D00; /* Color de texto */
-    text-align: center;
-}
+.titulo-servicios {
+    font-family: Judson;
+    font-weight: 900;
+    font-size: 40px;
+    color: #765D00;
+    margin-top: 20px;
+    text-align: left;
+  }
+
+  .form-group-full-servicios {
+    margin-top: 10px;  
+    display: grid;
+    justify-content: space-between;
+  }
+
+  .input-button-group-servicio2 .input {
+    width: 350px;
+    padding: 10px;
+    border: 2px solid #DFC432; /* Color de borde */
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    height: 65%;
+  }
+  
   
 label {
-    color: #765D00; /* Color de texto para etiquetas */
-    font-weight: bold;
+    margin-bottom: 0px;
+    color: #765D00;
+    font-size: 20px;
+    font-family: Judson;
 }
+
+.botones-juntos-servicios{
+    display: flex;
+    flex-direction: column; /* Apilar los botones verticalmente */
+    justify-content: center;
+    align-items: center;
+    gap: 5px; /* Espacio entre los botones */
+    margin-bottom: 5px;
+}
+
+.button-client-table-servicios {
+    background-color: #FFA8C6;
+    color: #fff;
+    padding: 6px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    font-size: 14px;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: Judson;
+    display:flex;
+  }
   
-.register-container {
+.register-container-servicios {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     border-radius: 10px;
     background-color: #FFF9FB;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100vh;
 }
+
+.input-servicios {
+    width: 100%;
+    padding: 9px;
+    margin-top: 0px;
+    border: 1px solid #DFC432;
+    border-width: 2px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    height: 50%;
+  }
   
 .form-row {
     display: flex;
@@ -34,16 +97,18 @@ label {
 }
   
 .form-group-full {
-    margin-top: 10px;
+    margin-top: 10px;  
+    display: grid;
+    justify-content: space-between;
 }
   
-input, select {
+select {
     width: 80%;
-    padding: 10px;
+    padding: 5px;
     border: 2px solid #DFC432; /* Color de borde */
     border-radius: 5px;
     font-size: 16px;
-    margin-top: 5px;
+    height: 50%;
 }
   
 input:focus, select:focus {
@@ -51,15 +116,18 @@ input:focus, select:focus {
     border-color: #765D00; /* Color de borde al enfocar */
 }
   
-button.button-server {
-    background-color: #FFA8C6; /* Color de botón */
-    color: #FFFFFF;
+.button-server {
+    background-color: #FFA8C6;
+    color: #fff;
+    padding: 12px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
+    border-radius: 8px;
+    width: 110px;
     cursor: pointer;
-    margin-top: 10px;
-    font-weight: bold;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    font-family: Judson;
+    margin-left: 22px;
 }
   
 button.button-server:hover {
@@ -67,11 +135,11 @@ button.button-server:hover {
 }
   
 .server-tabla {
-    margin-top: 40px;
+    margin-top: 100px;
 }
   
 table {
-    width: 100%;
+    width: 100%;       
     border-collapse: collapse;
 }
   
@@ -102,7 +170,7 @@ td {
 }
   
 .Modificar-content {
-    background-color: #FFFFFF;
+    background-color: #FFC5CC;
     padding: 20px;
     border-radius: 10px;
     width: 400px;
@@ -110,8 +178,12 @@ td {
 }
   
 .Modificar-content h3 {
-    color: #765D00;
+    color: #FF6996;
     margin-bottom: 20px;
+    font-family: Judson;
+    font-weight: 800;
+    font-size: 22px;
+    text-align: center;
 }
   
 .input-button-group {
@@ -119,13 +191,112 @@ td {
     align-items: center;
   }
   
-.input-button-group .input {
-    flex: 1;
-    margin-right: 10px; /* Espacio entre el input y el botón */
-    width: 50px; /* Ajusta este valor al tamaño deseado */
-}
   
 .input-button-group .button-server {
     margin-top: 0;
 }
+
+.button-server-modificar {
+    background-color: #FF6996;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    width: 110px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    font-family: Judson;
+    margin-left: 22px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+
+
+@media (max-width: 1024px) {
+    .register-container-servicios {
+        padding: 80px;
+        margin-top: 150px;
+      }
+
+    .titulo-servicios {
+        font-size: 35px;
+      }
+    
+  }
   
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .register-container-servicios {
+        padding: 40px;
+        margin-top: 100px;
+      }
+
+    .titulo-servicios {
+        font-size: 30px;
+      }
+
+      .input-servicios {
+        width: 100%;
+        height: 40%;
+      }
+
+      select {
+        width: 100%;
+        height: 40%;
+        font-size: 10px;
+    }
+
+    .input-button-group-servicio2 .input {
+        width: 140px;
+        height: 45% !important;
+    }
+
+    .button-client-table-servicios {
+        width: 100%;
+        font-size: 12px;
+      }
+
+      .button-server {
+        width: 70px;
+        font-size: 13px;
+      }
+
+      .server-tabla {
+        margin-top: 50px;
+      }
+
+      .Modificar-content {
+        padding: 15px;
+        width: 300px;
+    }
+
+    .Modificar-content h3 {
+        font-size: 18px;
+    }
+
+    .button-server-modificar {
+        padding: 8px;
+        width: 80px;
+        font-size: 14px;
+        margin-left: 15px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+}
+
+@media (max-width: 480px) {
+    .titulo-servicios {
+        font-size: 25px;
+      }
+
+      .register-container-servicios {
+        padding: 20px;
+        margin-top: 50px;
+        height: 100vh;
+        border-radius: 0% !important;
+      }
+}

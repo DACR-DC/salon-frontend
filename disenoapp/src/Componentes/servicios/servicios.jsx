@@ -144,16 +144,16 @@ const Servicios = () => {
   
 
   return (
-    <div className='register-container'>
-      <h2>Servicio</h2>
-      <br></br><br></br>
+    <div className='register-container-servicios'>
+      <h2 className='titulo-servicios'> Servicios</h2>
+      <br></br>
       <div className="form-row">
         <div className="form-group">
           <label className="label" htmlFor="nombre">Nombre del servicio:</label>
           <input
             type="text"
             id="nombreServicio"
-            className="input small"
+            className="input-servicios"
             value={nombre_servicio}
             name="nombre_servicio"
             onChange={(e) => setNombre_ser(e.target.value)}
@@ -163,7 +163,7 @@ const Servicios = () => {
 
         <div className="form-group">
           <label className="label" htmlFor="duracion">Duración:</label>
-          <select id="services" value={selectedOption} onChange={handleChange}>
+          <select id="input small" value={selectedOption} onChange={handleChange}>
             <option value="">--Selecciona una opción--</option>
             <option value="60">1 Hora</option>
             <option value="120">2 Hora</option>
@@ -173,9 +173,9 @@ const Servicios = () => {
         </div>
       </div>
 
-      <div className="form-group-full">
+      <div className="form-group-full-servicios">
         <label className="label" htmlFor="costo">Costo:</label>
-        <div className="input-button-group">
+        <div className="input-button-group-servicio2">
           <input
             type="text"
             id="costo"
@@ -185,7 +185,7 @@ const Servicios = () => {
             onChange={(e) => setcosto(e.target.value)}
           />
           {errorservicio && <span className="error" style={{ color: "red" }}>{errorservicio}</span>}
-          <button type="submit" onClick={handleSubmit} className="button-server">Guardar Servicio</button>
+          <button type="submit" onClick={handleSubmit} className="button-server">Guardar</button>
         </div>
       </div>
 
@@ -208,8 +208,10 @@ const Servicios = () => {
                 <td>{servicio.duracion_servicio}</td>
                 <td>{servicio.costo_servicio}</td>
                 <td>
-                  <button className="button-server" onClick={() => handleEliminarServicio(servicio.id_servicio)}>Eliminar</button><br></br>
-                  <button className="button-server" onClick={() => handleModificar(servicio)}>Modificar</button>
+                  <div className='botones-juntos-servicios'>
+                  <button className="button-client-table-servicios" onClick={() => handleEliminarServicio(servicio.id_servicio)}>Eliminar</button>
+                  <button className="button-client-table-servicios" onClick={() => handleModificar(servicio)}>Modificar</button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -242,8 +244,10 @@ const Servicios = () => {
               onChange={(e) => setservicioModificar({ ...servicioModificar, costo_servicio: e.target.value })}
               placeholder="costo"
             />
-            <button onClick={handleModificarServicio} className="button-server">Guardar Cambios</button>
-            <button onClick={handleCloseModificar} className="button-server">Cancelar</button>
+            <div className='botones-juntos-modificar'>
+            <button onClick={handleModificarServicio} className="button-server-modificar">Guardar</button>
+            <button onClick={handleCloseModificar} className="button-server-modificar">Cancelar</button>
+            </div>
           </div>
         </div>
       )}
