@@ -124,8 +124,8 @@ const Registro = () => {
 
   return (
     <div className='register-container'>
-      <h2>Clientes</h2>
-      <br></br><br></br>
+      <h2 className='titulo-clientes'>Clientes</h2>
+      <br></br>
       <div className="form-row">
         <div className="form-group">
           <label className="label" htmlFor="nombre">Nombre:</label>
@@ -154,9 +154,9 @@ const Registro = () => {
         </div>
       </div>
 
-      <div className="form-group-full">
+      <div className="form-group-full-clientes">
         <label className="label" htmlFor="telefono">Teléfono:</label>
-        <div className="input-button-group">
+        <div className="input-button-group-cliente">
           <input
             type="text"
             id="telefono"
@@ -165,7 +165,7 @@ const Registro = () => {
             name="telefono_cliente"
             onChange={(e) => setTelefono(e.target.value)}
           />
-          <button type="submit" onClick={handleSubmit} className="button-client">Guardar Cliente</button>
+          <button type="submit" onClick={handleSubmit} className="button-client">Guardar</button>
         </div>
       </div>
 
@@ -188,8 +188,10 @@ const Registro = () => {
                 <td>{cliente.apellido_cliente}</td>
                 <td>{cliente.telefono_cliente}</td>
                 <td>
-                  <button className="button-client" onClick={() => handleEliminarCliente(cliente.id_cliente)}>Eliminar</button>
-                  <button className="button-client" onClick={() => handleModificar(cliente)}>Modificar</button>
+                  <div className='botones-juntos'>
+                  <button className="button-client-table" onClick={() => handleEliminarCliente(cliente.id_cliente)}>Eliminar</button>
+                  <button className="button-client-table" onClick={() => handleModificar(cliente)}>Modificar</button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -200,7 +202,7 @@ const Registro = () => {
       {showMod && (
         <div className="Modificar">
           <div className="Modificar-content">
-            <h3>Modificar Cliente</h3>
+            <h3>Modificar</h3>
             Nombre
             <input
               type="text"
@@ -222,8 +224,10 @@ const Registro = () => {
               onChange={(e) => setClienteModificar({ ...clienteModificar, telefono_cliente: e.target.value })}
               placeholder="Teléfono"
             />
-            <button onClick={handleModificarCliente} className="button-client">Guardar Cambios</button>
-            <button onClick={handleCloseModificar} className="button-client">Cancelar</button>
+            <div className='botones-juntos-modificar'>
+            <button onClick={handleModificarCliente} className="button-client-modificar">Guardar</button>
+            <button onClick={handleCloseModificar} className="button-client-modificar">Cancelar</button>
+            </div>
           </div>
         </div>
       )}
