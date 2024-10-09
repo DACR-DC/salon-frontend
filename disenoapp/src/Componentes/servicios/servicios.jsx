@@ -35,7 +35,7 @@ const Servicios = () => {
   };
 
   const validateServiceName = (name) => {
-    const regex = /^[a-zA-Z\s]+$/;
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     return regex.test(name);
   };
 
