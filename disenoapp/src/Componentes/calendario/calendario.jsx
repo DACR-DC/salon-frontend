@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, dayjsLocalizer } from "react-big-calendar";
+import { Calendar, dayjsLocalizer, Views } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
 import "dayjs/locale/es"; // Importa el locale en español
@@ -17,6 +17,7 @@ import {
   Button,
   Select,
   useToast,
+  Text
 } from "@chakra-ui/react";
 
 dayjs.locale('es');
@@ -47,9 +48,11 @@ const Calendario = ({
   const [editCliente, setEditCliente] = useState("");
   const [editEndTime, setEditEndTime] = useState("");
   const toast = useToast();
+  const [currentView, setCurrentView] = useState(Views.MONTH);
 
   // Componente personalizado para ocultar la fecha en la agenda
   const AgendaDate = () => null;
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +92,10 @@ const Calendario = ({
 
     fetchData();
   }, [filterDate]);
+
+  const handleViewChange = (view) => {
+    setCurrentView(view); // Actualiza la vista actual
+  };
 
   const handleSelectSlot = ({ start }) => {
     if (readonly) return;
@@ -340,19 +347,32 @@ const Calendario = ({
           noEventsInRange: 'No hay citas programadas el día de hoy',
           showMore: (total) => `+ Ver más (${total})`,
         }}
+        eventPropGetter={(event, start, end, isSelected) => {
+          return {
+            style: {
+              backgroundColor: '#FF6996', // Fondo blanco para el evento
+              color: 'white', // Color del texto
+            },
+          };
+        }}
       />
 
       {/* Modales para crear y editar citas solo si no está en modo readonly */}
       {!readonly && isOpen && (
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Agendar Cita</ModalHeader>
+          <ModalContent className="modal-content">
+            <ModalHeader className="modal-header">Agendar Cita</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody className="modal-body">
+              Cliente
               <Select
                 placeholder="Seleccione Cliente"
                 onChange={(e) => setSelectedCliente(e.target.value)}
+                className="modal-select"
+                value={selectedCliente}
+                bg="white"
+                mb={6}
               >
                 {clientes.map((cliente) => (
                   <option key={cliente.id_cliente} value={cliente.id_cliente}>
@@ -360,11 +380,14 @@ const Calendario = ({
                   </option>
                 ))}
               </Select>
-        
+              Servicio
               <Select
                 placeholder="Seleccione Servicio"
                 onChange={(e) => setSelectedServicio(e.target.value)}
-                mt={4}
+                className="modal-select"
+                value={selectedServicio}
+                mb={6}
+                bg="white"
               >
                 {servicios.map((servicio) => (
                   <option key={servicio.id_servicio} value={servicio.id_servicio}>
@@ -372,11 +395,14 @@ const Calendario = ({
                   </option>
                 ))}
               </Select>
-        
+              Hora
               <Select
                 placeholder="Seleccione Hora"
                 onChange={handleSelectTime}
-                mt={4}
+                className="modal-select"
+                value={selectedTime}
+                mb={4}
+                bg="white"
               >
                 {timeOptions.map((time) => (
                   <option key={time} value={time}>
@@ -386,11 +412,20 @@ const Calendario = ({
               </Select>
             </ModalBody>
         
-            <ModalFooter>
-              <Button colorScheme="blue" onClick={handleCreateCita}>
-                Guardar Cita
+            <ModalFooter className="modal-footer">
+              <Button
+                colorScheme="#FD7AA1"
+                onClick={handleCreateCita}
+                className="modal-button guardar"
+                isDisabled={!isTimeSelected}
+              >
+                Agendar
               </Button>
-              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+              <Button
+                variant="ghost"
+                onClick={() => setIsOpen(false)}
+                className="modal-button cancelar"
+              >
                 Cancelar
               </Button>
             </ModalFooter>
@@ -402,36 +437,37 @@ const Calendario = ({
       {isEventModalOpen && selectedEvent && (
         <Modal isOpen={isEventModalOpen} onClose={handleCloseEventModal}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Detalles de la Cita</ModalHeader>
+          <ModalContent className="modal-content" maxHeight={{ base: "48vh", md: "58vh", lg: "80vh" }}>
+            <ModalHeader className="modal-header">Detalles de la Cita</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
-              <p style={{ color: "black", fontSize: "14px" }}>
-                <strong>Cliente:</strong> {clientes.find((c) => c.id_cliente === selectedEvent.id_cliente)?.nombre_cliente} {clientes.find((c) => c.id_cliente === selectedEvent.id_cliente)?.apellido_cliente}
-              </p>
-              <p style={{ color: "black", fontSize: "14px" }}>
-                <strong>Servicio:</strong> {servicios.find((s) => s.id_servicio === selectedEvent.id_servicio)?.nombre_servicio} {servicios.find((s) => s.id_servicio === selectedEvent.id_servicio)?.duracion_servicio}-minutos Q{servicios.find((s) => s.id_servicio === selectedEvent.id_servicio)?.costo_servicio}
-              </p>
-              <p style={{ color: "black", fontSize: "14px" }}>
-                <strong>Fecha:</strong> {dayjs(selectedEvent.start).format('DD/MM/YYYY')}
-              </p>
-              <p style={{ color: "black", fontSize: "14px" }}>
-                <strong>Hora de Inicio:</strong> {dayjs(selectedEvent.start).format('HH:mm')}
-              </p>
-              <p style={{ color: "black", fontSize: "14px" }}>
-                <strong>Hora de Fin:</strong> {dayjs(selectedEvent.end).format('HH:mm')}
-              </p>
+            <ModalBody className="modal-body" maxHeight={{ base: "30vh", md: "70vh", lg: "80vh" }}>
+            <Text color="black" fontSize={['14px', '18px', '20px']} fontFamily="Judson" marginBottom={{ base: 3, md: 4, lg: 6 }}>
+            <strong>Cliente:</strong> {clientes.find((c) => c.id_cliente === selectedEvent.id_cliente)?.nombre_cliente} {clientes.find((c) => c.id_cliente === selectedEvent.id_cliente)?.apellido_cliente}
+            </Text>
+            
+            <Text color="black" fontSize={['14px', '18px', '20px']} fontFamily="Judson" marginBottom={{ base: 3, md: 4, lg: 6 }}>
+              <strong>Servicio:</strong> {servicios.find((s) => s.id_servicio === selectedEvent.id_servicio)?.nombre_servicio} {servicios.find((s) => s.id_servicio === selectedEvent.id_servicio)?.duracion_servicio} minutos Q{servicios.find((s) => s.id_servicio === selectedEvent.id_servicio)?.costo_servicio}
+            </Text>
+
+            <Text color="black" fontSize={['14px', '18px', '20px']} fontFamily="Judson" marginBottom={{ base: 3, md: 4, lg: 6 }}>
+              <strong>Fecha:</strong> {dayjs(selectedEvent.start).format('DD/MM/YYYY')}
+            </Text>
+            
+            <Text color="black" fontSize={['14px', '18px', '20px']} fontFamily="Judson" marginBottom={{ base: 3, md: 4, lg: 6 }}>
+              <strong>Hora de Inicio:</strong> {dayjs(selectedEvent.start).format('HH:mm')}
+            </Text>
+            
+            <Text color="black" fontSize={['14px', '18px', '20px']} fontFamily="Judson" marginBottom={{ base: 3, md: 4, lg: 6 }}>
+              <strong>Hora de Fin:</strong> {dayjs(selectedEvent.end).format('HH:mm')}
+            </Text>
             </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" onClick={handleOpenEditModal}>
+            <ModalFooter  className="modal-footer">
+              <Button colorScheme="blue" onClick={handleOpenEditModal} className="modal-button guardar" >
                 Modificar
               </Button>
-              <Button colorScheme="red" onClick={handleDeleteCita}>
+              <Button colorScheme="red" onClick={handleDeleteCita} className="modal-button guardar">
                 Eliminar
-              </Button>
-              <Button variant="ghost" onClick={handleCloseEventModal}>
-                Cerrar
               </Button>
             </ModalFooter>
           </ModalContent>
@@ -442,16 +478,20 @@ const Calendario = ({
       {isEditModalOpen && (
         <Modal isOpen={isEditModalOpen} onClose={handleCloseEditModal}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Modificar Cita</ModalHeader>
+          <ModalContent className="modal-content">
+            <ModalHeader className="modal-header">Modificar Cita</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody className="modal-body">
+              Cliente
               <Select
                 value={editCliente || selectedEvent.id_cliente} 
                 onChange={(e) => {
                   setEditCliente(e.target.value);
                 }}
                 placeholder="Seleccione Cliente"
+                className="modal-select"
+                mb={4}
+                bg="white"
               >
                 {clientes.map((cliente) => (
                   <option key={cliente.id_cliente} value={cliente.id_cliente}>
@@ -459,7 +499,7 @@ const Calendario = ({
                   </option>
                 ))}
               </Select>
-      
+              Servicio
               <Select
                 value={editService}
                 onChange={(e) => {
@@ -475,7 +515,9 @@ const Calendario = ({
                   setEditEndTime(newEndTime.toTimeString().split(" ")[0]);
                 }}
                 placeholder="Seleccione Servicio"
-                mt={4}
+                className="modal-select"
+                mb={4}
+                bg="white"
               >
                 {servicios.map((servicio) => (
                   <option key={servicio.id_servicio} value={servicio.id_servicio}>
@@ -483,7 +525,7 @@ const Calendario = ({
                   </option>
                 ))}
               </Select>
-      
+              Hora inicio
               <Select
                 value={editStartTime || dayjs(selectedEvent.start).format('HH:mm')} 
                 onChange={(e) => {
@@ -500,7 +542,9 @@ const Calendario = ({
                   setEditEndTime(newEndTime.toTimeString().split(" ")[0]);
                 }}
                 placeholder="Seleccione Hora de Inicio"
-                mt={4}
+                className="modal-select"
+                mb={{ base: '4', sm: '5', md: '6', lg: '7' }}
+                bg="white"
               >
                 {timeOptions.map((time) => (
                   <option key={time} value={time}>
@@ -509,16 +553,16 @@ const Calendario = ({
                 ))}
               </Select>
       
-              <p style={{ color: "black", fontSize: "14px" }}>
+              <p style={{ color: "#FD7AA1", fontSize: "18px" }}>
                 <strong>Hora de Fin:</strong> {editEndTime}
               </p>
             </ModalBody>
       
-            <ModalFooter>
-              <Button colorScheme="blue" onClick={handleUpdateCita}>
-                Guardar Cambios
+            <ModalFooter className="modal-footer">
+              <Button colorScheme="#FD7AA1" onClick={handleUpdateCita} className="modal-button guardar" >
+                Modificar
               </Button>
-              <Button variant="ghost" onClick={handleCloseEditModal}>
+              <Button variant="ghost" onClick={handleCloseEditModal} className="modal-button guardar" >
                 Cancelar
               </Button>
             </ModalFooter>

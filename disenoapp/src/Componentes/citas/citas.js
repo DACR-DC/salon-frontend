@@ -17,6 +17,12 @@ const Citas = () => {
                 filterDate={today}
                 readonly={true}
                 toolbar={false} // Oculta la barra de navegación
+                eventPropGetter={() => ({
+                    style: {
+                        backgroundColor: 'white', // Color de fondo blanco para las citas
+                        color: 'black', // Color del texto negro
+                    },
+                })}
             />
         </div>
     );
