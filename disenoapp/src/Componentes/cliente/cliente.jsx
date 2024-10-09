@@ -50,7 +50,7 @@ const Registro = () => {
     }
   };
 
-  const validarTexto = (texto) => /^[a-zA-Z\s]+$/.test(texto);
+  const validarTexto = (texto) => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(texto);
   const validarTelefono = (telefono) => /^[0-9]+$/.test(telefono);
 
   const handleSubmit = async (e) => {
