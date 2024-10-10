@@ -45,6 +45,8 @@ const Servicios = () => {
   };
 
   const handleEliminarServicio = async (id) => {
+    const confirmar = window.confirm("¿Estás seguro que deseas eliminar este servicio?");
+    if(confirmar){
     try {
       await axios.delete(`${BACKEND_API}api/servicio/${id}`);
       toast.success('¡Servicio eliminado exitosamente!', {
@@ -63,7 +65,14 @@ const Servicios = () => {
     } catch (error) {
       console.error("Error al eliminar el servicio:", error);
     }
-  };
+  }else {
+    toast.info('Eliminación cancelada', {
+      position: "bottom-center",
+      autoClose: 1000,
+      theme: "dark",
+    });
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();

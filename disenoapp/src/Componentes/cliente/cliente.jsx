@@ -30,25 +30,36 @@ const Registro = () => {
  
 
   const handleEliminarCliente = async (id) => {
-    try {
-      await axios.delete(`${BACKEND_API}api/cliente/${id}`);
-      toast.success('¡Cliente eliminado exitosamente!', {
+    const confirmar = window.confirm("¿Estás seguro que deseas eliminar este cliente?");
+    
+    if (confirmar) {
+      try {
+        await axios.delete(`${BACKEND_API}api/cliente/${id}`);
+        toast.success('¡Cliente eliminado exitosamente!', {
+          position: "bottom-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
+      } catch (error) {
+        console.error("Error al eliminar el Cliente:", error);
+      }
+    } else {
+      toast.info('Eliminación cancelada', {
         position: "bottom-center",
         autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
         theme: "dark",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 800);
-    } catch (error) {
-      console.error("Error al eliminar el Cliente:", error);
     }
   };
+  
 
   const validarTexto = (texto) => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(texto);
   const validarTelefono = (telefono) => /^[0-9]+$/.test(telefono);
