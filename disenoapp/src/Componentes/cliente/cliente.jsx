@@ -105,21 +105,32 @@ const Registro = () => {
   };
 
   const handleModificarCliente = async () => {
+    const confirmar = window.confirm("¿Deseas modificar este cliente?");
+  
+    if (!confirmar) {
+      toast.info('Modificación cancelada', {
+        position: "bottom-center",
+        autoClose: 1000,
+        theme: "dark",
+      });
+      return;
+    }
+  
     if (!validarTexto(clienteModificar.nombre_cliente)) {
       toast.error('El nombre solo debe contener letras.', { position: "bottom-center", theme: "dark" });
       return;
     }
-
+  
     if (!validarTexto(clienteModificar.apellido_cliente)) {
       toast.error('El apellido solo debe contener letras.', { position: "bottom-center", theme: "dark" });
       return;
     }
-
+  
     if (!validarTelefono(clienteModificar.telefono_cliente)) {
       toast.error('El teléfono solo debe contener números.', { position: "bottom-center", theme: "dark" });
       return;
     }
-
+  
     try {
       await axios.put(`${BACKEND_API}api/actualizar-cliente/${clienteModificar.id_cliente}`, clienteModificar);
       toast.success('¡Cliente modificado exitosamente!', { position: "bottom-center", theme: "dark" });
@@ -132,6 +143,7 @@ const Registro = () => {
       toast.error('¡Error al modificar el cliente!', { position: "bottom-center", theme: "dark" });
     }
   };
+  
 
   return (
     <div className='register-container'>

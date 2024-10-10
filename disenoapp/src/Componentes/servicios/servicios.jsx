@@ -159,6 +159,17 @@ const Servicios = () => {
   };
 
   const handleModificarServicio = async () => {
+    const confirmar = window.confirm("¿Deseas modificar este servicio?");
+    
+    if (!confirmar) {
+      toast.info('Modificación cancelada', {
+        position: "bottom-center",
+        autoClose: 1000,
+        theme: "dark",
+      });
+      return;
+    }
+  
     try {
       await axios.put(`${BACKEND_API}api/servicio/${servicioModificar.id_servicio}`, servicioModificar);
       toast.success('¡Servicio modificado exitosamente!', {
@@ -189,6 +200,7 @@ const Servicios = () => {
       });
     }
   };
+  
 
   return (
     <div className='register-container-servicios'>
